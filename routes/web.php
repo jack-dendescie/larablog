@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\CommentController;
+// use App\Http\Controllers\ArticleController;
 
 
 
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/comments/store', [CommentController::class, 'store'])->name('comments.store');
 
+    Route::get('/articles/{id}/like', [UserController::class, 'like'])->name('article.like')->middleware('auth');
 });
 
 
@@ -40,3 +42,4 @@ require __DIR__.'/auth.php';
 
 Route::get('/{user}', [PublicController::class, 'index'])->name('public.index');
 Route::get('/{user}/{article}', [PublicController::class, 'show'])->name('public.show');
+

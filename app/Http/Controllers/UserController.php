@@ -129,6 +129,16 @@ class UserController extends Controller
             return redirect()->back()->with('success', 'Article supprimé avec succès.');
         }
 
+        public function like($id)
+        {
+            $article = Article::findOrFail($id);
+            $article->likes += 1;
+            $article->save();
+
+            return redirect()->back()->with('success', 'Merci pour le like !');
+        }
+
+
 
 
 }
