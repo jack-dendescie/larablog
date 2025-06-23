@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Article;
+use App\Models\Category;
 
 class UserController extends Controller
 {
     public function create()
     {
-        return view('articles.create');
+
+        $categories = Category::all();
+        return view('articles.create', compact('categories'));
+        // return view('articles.create');
     }
 
         public function store(Request $request)
@@ -37,7 +41,10 @@ class UserController extends Controller
         // $article->categories()->sync($request->input('categories'));
 
         // On redirige l'utilisateur vers la liste des articles
-        return redirect()->route('dashboard');
+        $article->categories()->sync($request->categories);
+
+        return redirect()->route('dashboard')->with('success', 'Article créé avec succès');
+        // return redirect()->route('dashboard');
     }
 
     public function index()
@@ -57,10 +64,13 @@ class UserController extends Controller
             abort(403);
         }
 
+        $categories = Category::all();
+        return view('articles.edit', compact('article', 'categories'));
+
         // On retourne la vue avec l'article
-        return view('articles.edit', [
-            'article' => $article
-        ]);
+        // return view('articles.edit', [
+        //     'article' => $article
+        // ]);
     }   
 
     public function update(Request $request, Article $article)
@@ -80,7 +90,9 @@ class UserController extends Controller
         $article->update($data);
 
         // On redirige l'utilisateur vers la liste des articles (avec un flash)
-        return redirect()->route('dashboard')->with('success', 'Article mis à jour !');
+        $article->categories()->sync($request->categories);
+        return redirect()->route('dashboard')->with('success', 'Article modifié avec succès');
+        // return redirect()->route('dashboard')->with('success', 'Article mis à jour !');
     }
 
     // public function remove($id)

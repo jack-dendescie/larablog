@@ -10,7 +10,18 @@
         @foreach ($articles as $article)
         <div>
             <div class="p-6 text-gray-900 dark:text-gray-100">
+               
+
                 <h2 class="text-2xl font-bold">{{ $article->title }}</h2>
+
+
+                @foreach ($article->categories as $category)
+                <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs mr-2">
+                    {{ $category->name }}
+                </span>
+                 @endforeach
+
+
                 <p class="text-gray-700 dark:text-gray-300">{{ substr($article->content, 0, 30) }}...</p>
                 
                 <a href="{{ route('public.show', [$article->user_id, $article->id]) }}" class="text-red-500 hover:text-red-700">Lire la suite</a>

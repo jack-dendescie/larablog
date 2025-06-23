@@ -19,12 +19,31 @@
                    <textarea rows="10" name="content" id="content" placeholder="Contenu de l'article" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
                 </div>
 
+                <!-- Choisir categorie-->
+
+                <div class="mb-4 p-6 text-gray-900 flex flex-col items-start ">
+                    <label for="categories" class="block text-gray-700 font-bold mb-2">Catégories</label>
+                    <select name="categories[]" id="categories" multiple class="w-full border border-gray-300 rounded px-3 py-2">
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ (isset($article) && $article->categories->contains($category->id)) ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <p class="text-sm text-gray-500 mt-1">Maintenez Ctrl (Windows) ou Cmd (Mac) pour sélectionner plusieurs catégories.</p>
+                </div>
+
+
                 <div class="p-6 text-gray-900 flex items-center">
                     <!-- Action sur le formulaire -->
                     <div class="grow">
                         <input type="checkbox" name="draft" id="draft" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <label for="draft">Article en brouillon</label>
                     </div>
+
+                    
+                    
                     <div>
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Créer l'article

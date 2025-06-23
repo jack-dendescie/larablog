@@ -20,6 +20,10 @@ class PublicController extends Controller
             'articles' => $articles,
             'user' => $user
         ]);
+
+
+        $articles = Article::with(['categories'])->where('user_id', $user->id)->get();
+
     }
 
     public function show(User $user, Article $article)
@@ -39,5 +43,12 @@ class PublicController extends Controller
         //     'user' => $user
         // ]
     );
-    }
+
+    $article = Article::with(['user', 'comments.user', 'categories'])->findOrFail($id);
+
+
+}
+
+
+
 }
